@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "./index.css"
 
 const App = () => {
   const [invoiceNumber, setInvoiceNumber] = useState("");
@@ -26,6 +27,13 @@ const App = () => {
       alert("Login failed");
     }
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // remove JWT token
+    setToken("");                     // clear state
+    // Optional: redirect to login or show a message
+  };
+  
 
   const handleUpload = async () => {
     const formData = new FormData();
@@ -98,6 +106,15 @@ const App = () => {
             <input type="file" multiple onChange={handleFileChange} className="border p-2 ml-2" />
             <button onClick={handleUpload} className="bg-green-500 text-white p-2 ml-2">Upload</button>
           </div>
+          {token && (
+            <button
+              onClick={handleLogout}
+              className="absolute top-4 right-4 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded shadow"
+            >
+              Logout
+            </button>
+          )}
+
 
           <div>
             <button onClick={handleSearch} className="bg-blue-500 text-white p-2">Search Invoice</button>
